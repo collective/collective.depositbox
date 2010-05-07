@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master">
+<body>
+<div metal:fill-slot="main">
+  <form method="post" action="">
+    <tal:secret condition="python:view.secret and (view.token or not view.token_id)">
+      <input name="secret" type="hidden" tal:attributes="value request/secret"/>
+      <p tal:content="view/value" />
+      <div class="field"
+           tal:repeat="fieldname python:view.value.keys()">
+        <label tal:attributes="for fieldname"
+               tal:content="fieldname" />
+        <input type="text"
+               tal:attributes="name fieldname;
+                               value python:view.value.get(fieldname); " />
+      </div>
+    </tal:secret>
+    <tal:nosecret condition="python:not view.secret or (view.token_id and not view.token)">
+      <div class="field">
+        <label for="secret">Secret key</label>
+        <input name="secret" type="text" />
+      </div>
+      <div class="field"
+           tal:condition="view/token_id">
+        <label tal:attributes="for view/token_id"
+               tal:content="view/token_id" />
+        <input type="text"
+               tal:attributes="name view/token_id;
+                               value view/token; " />
+      </div>
+    </tal:nosecret>
+    <div class="formControls">
+      <input type="submit" class="context" value="Submit" />
+    </div>
+  </form>
+</div>
+</body>
+</html>

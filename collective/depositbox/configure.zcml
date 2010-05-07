@@ -1,0 +1,29 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="collective.depositbox">
+
+  <five:registerPackage package="." initialize=".initialize" />
+  <!--i18n:registerTranslations directory="locales" /-->
+
+  <adapter factory=".adapter.BoxAdapter" />
+
+  <browser:page
+      name="deposit-add"
+      for="zope.annotation.interfaces.IAttributeAnnotatable"
+      class=".browser.Add"
+      template="templates/add.pt"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="deposit-edit"
+      for="zope.annotation.interfaces.IAttributeAnnotatable"
+      class=".browser.Edit"
+      template="templates/edit.pt"
+      permission="zope2.View"
+      />
+
+</configure>
