@@ -34,4 +34,12 @@
       permission="zope2.View"
       />
 
+  <browser:page
+      name="deposit-delete"
+      for="zope.annotation.interfaces.IAttributeAnnotatable"
+      class=".browser.Delete"
+      template="templates/delete.pt"
+      permission="zope2.View"
+      />
+
 </configure>

@@ -114,3 +114,28 @@ class Edit(BaseView):
         # Check again for differences
         if self.value != self.stored:
             box.edit(self.secret, self.value, token=self.token)
+
+
+class Delete(BaseView):
+
+    deleted = False
+
+    def update(self):
+        """Delete the item/token.
+        """
+        if not self.secret:
+            return
+        if self.token_id and not self.token:
+            # Token is required.
+            return
+
+        context = aq_inner(self.context)
+        box = IDepositBox(context)
+        if self.request.form.get('delete'):
+            self.stored = box.pop(self.secret, token=self.token)
+            self.deleted = True
+        else:
+            self.stored = box.get(self.secret, token=self.token)
+            if self.request.form.get('cancel'):
+                self.request.RESPONSE.redirect(
+                    self.context.absolute_url())
