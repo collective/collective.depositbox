@@ -89,15 +89,24 @@ fourth item gets the third secret:
 
 We can optionally store an item with an extra token.  Then we can only
 get the item back when we supply both the secret and the token.  This
-provides extra safety.
+provides extra safety.  We must first confirm the token though
+(usually this will be an email address).
 
     >>> secret = box.put('my data', 'maurits@example.com')
-    >>> box.get(secret) is None
+    >>> box.get(secret, 'maurits@example.com') is None
     True
-    >>> box.get(secret, 'wrong token') is None
-    True
+    >>> box.confirm(secret, 'maurits@example.com')
     >>> box.get(secret, 'maurits@example.com')
     'my data'
+
+Confirming wrong tokens does not help:
+
+    >>> box.confirm(secret)
+    >>> box.get(secret) is None
+    True
+    >>> box.confirm(secret, 'wrong token')
+    >>> box.get(secret, 'wrong token') is None
+    True
 
 If we get None back, we always interpret this as meaning there was no
 match.  So we should not accept None as a valid value to store in the

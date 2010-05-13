@@ -73,11 +73,32 @@ class Box(Persistent):
             # raise Exception
             return None
         if not stored.confirmed:
+            # Purge this item when it is expired:
             cutoff = int(time.time()) - self.max_age * 86400
             if stored.timestamp < cutoff:
                 del self.data[secret]
                 return None
+            if token:
+                # When there is a token, the item must be confirmed
+                # before we return the value.  Main use case: email
+                # confirmation.
+                return None
         return stored.value
+
+    def confirm(self, secret, token=None):
+        stored = self.data.get(secret)
+        if stored is None:
+            return None
+        if stored.token != token:
+            # raise Exception
+            return None
+        if not stored.confirmed:
+            # First check if the confirmation comes too late.
+            cutoff = int(time.time()) - self.max_age * 86400
+            if stored.timestamp < cutoff:
+                del self.data[secret]
+                return None
+        stored.confirmed = True
 
     def pop(self, secret, token=None):
         stored = self.get(secret, token=token)
