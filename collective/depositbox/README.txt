@@ -202,3 +202,21 @@ unconfirmed item.
     True
     >>> len(box.data) == start_items
     True
+
+We can get all confirmed data:
+
+    >>> confirmed = box.get_all_confirmed()
+    >>> confirmed
+    <generator object at ...>
+    >>> sorted([x for x in confirmed])
+    ['my data']
+
+Let's add another item and confirm it:
+
+    >>> some_object = object()
+    >>> secret = box.put(some_object)
+    >>> some_data = box.data.get(secret)
+    >>> some_data.confirmed = True
+    >>> confirmed = box.get_all_confirmed()
+    >>> sorted([x for x in confirmed])
+    [<object object at ...>, 'my data']

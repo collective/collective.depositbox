@@ -39,3 +39,6 @@ class BoxAdapter(object):
 
     def pop(self, secret, token=None):
         return self.box.pop(secret, token=token)
+
+    def get_all_confirmed(self):
+        return self.box.get_all_confirmed()

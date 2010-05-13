@@ -112,6 +112,11 @@ class Box(Persistent):
         self.data.pop(secret)
         return stored
 
+    def get_all_confirmed(self):
+        for key, stored in self.data.items():
+            if stored.confirmed:
+                yield stored.value
+
     def purge(self):
         """Purge items that have expired.
 
