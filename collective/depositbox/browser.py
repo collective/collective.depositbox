@@ -60,6 +60,25 @@ class Add(BaseView):
         self.secret = secret
 
 
+class Confirm(BaseView):
+
+    confirmed = False
+
+    def update(self):
+        """Confirm the item/token.
+        """
+        if not self.secret:
+            return
+        if self.token_id and not self.token:
+            # Token is required.
+            return
+
+        context = aq_inner(self.context)
+        box = IDepositBox(context)
+        self.confirmed = box.confirm(self.secret, token=self.token)
+        self.stored = box.get(self.secret, token=self.token)
+
+
 class Edit(BaseView):
 
     def update(self):

@@ -4,7 +4,7 @@
 <body>
 <div metal:fill-slot="main">
   <p tal:condition="view/secret|nothing">Pssst, your secret is <span tal:content="view/secret" />.
-  You can <a tal:attributes="href string:${context/absolute_url}/@@deposit-edit">edit</a> it.</p>
+  Click to <a tal:attributes="href string:${context/absolute_url}/@@deposit-confirm?secret=${view/secret}">confirm</a> it.</p>
   <form method="post" action="">
     <div class="field">
       <label for="email">Email address</label>

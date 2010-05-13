@@ -34,5 +34,8 @@ class BoxAdapter(object):
     def get(self, secret, token=None):
         return self.box.get(secret, token=token)
 
+    def confirm(self, secret, token=None):
+        return self.box.confirm(secret, token=token)
+
     def pop(self, secret, token=None):
         return self.box.pop(secret, token=token)

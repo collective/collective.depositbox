@@ -96,6 +96,7 @@ provides extra safety.  We must first confirm the token though
     >>> box.get(secret, 'maurits@example.com') is None
     True
     >>> box.confirm(secret, 'maurits@example.com')
+    True
     >>> box.get(secret, 'maurits@example.com')
     'my data'
 

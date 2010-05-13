@@ -86,6 +86,8 @@ class Box(Persistent):
         return stored.value
 
     def confirm(self, secret, token=None):
+        """Confirm the item/token and return whether this succeeded or not.
+        """
         stored = self.data.get(secret)
         if stored is None:
             return None
@@ -97,8 +99,11 @@ class Box(Persistent):
             cutoff = int(time.time()) - self.max_age * 86400
             if stored.timestamp < cutoff:
                 del self.data[secret]
-                return None
+                # Report back that we have failed, in case anyone
+                # wants to know.
+                return False
         stored.confirmed = True
+        return True
 
     def pop(self, secret, token=None):
         stored = self.get(secret, token=token)
