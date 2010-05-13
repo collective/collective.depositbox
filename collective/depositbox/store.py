@@ -59,7 +59,7 @@ class Box(Persistent):
         """
         if value is None:
             raise ValueError
-        stored = self.get(secret, token=None)
+        stored = self.get(secret, token=token)
         if value == stored:
             # No change
             return

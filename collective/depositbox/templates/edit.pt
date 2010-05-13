@@ -4,9 +4,8 @@
 <body>
 <div metal:fill-slot="main">
   <form method="post" action="">
-    <tal:secret condition="python:view.secret and (view.token or not view.token_id)">
+    <tal:secret condition="python:view.stored">
       <input name="secret" type="hidden" tal:attributes="value request/secret"/>
-      <p tal:content="view/value" />
       <div class="field"
            tal:repeat="fieldname python:view.value.keys()">
         <label tal:attributes="for fieldname"
@@ -16,10 +15,10 @@
                                value python:view.value.get(fieldname); " />
       </div>
     </tal:secret>
-    <tal:nosecret condition="python:not view.secret or (view.token_id and not view.token)">
+    <tal:nosecret condition="python:not view.stored">
       <div class="field">
         <label for="secret">Secret key</label>
-        <input name="secret" type="text" />
+        <input name="secret" type="text" tal:attributes="value request/secret|nothing"/>
       </div>
       <div class="field"
            tal:condition="view/token_id">
