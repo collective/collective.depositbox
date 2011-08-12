@@ -2,8 +2,6 @@ import logging
 import time
 import random
 from persistent import Persistent
-from BTrees.IOBTree import IOBTree
-from BTrees.OOBTree import OOBTree
 from persistent.mapping import PersistentMapping
 from zope.interface import implements
 
@@ -21,11 +19,6 @@ class BoxItem(Persistent):
         self.confirmed = confirmed
         self.timestamp = int(time.time())
 
-# This may be prettier but may give (away) too much info.
-    # def __repr__(self):
-    #     return '<BoxItem with token %r, value %r, confirmed %r, timestamp %r' % (
-    #         self.token, self.value, self.confirmed, self.timestamp)
-
 
 class Box(Persistent):
     implements(IDepositBox)
@@ -35,15 +28,12 @@ class Box(Persistent):
     max_age = 7
 
     def __init__(self):
-        #self.data = IOBTree()
-        #self.data = OOBTree()
         self.data = PersistentMapping()
         self._last_purge = int(time.time())
 
     def _generate_new_id(self):
         """Generate new id.
         """
-        #id = random.randint(1, MAX_ID)
         id = ''.join(random.sample('bcdfghjklmnpqrstvwxz23456789', 8))
         while id in self.data.keys():
             id = self._generate_new_id()
@@ -104,7 +94,7 @@ class Box(Persistent):
         if stored is None:
             return None
         if stored.token != token:
-            # raise Exception
+            # raise Exception?
             return None
         if not stored.confirmed:
             # First check if the confirmation comes too late.
