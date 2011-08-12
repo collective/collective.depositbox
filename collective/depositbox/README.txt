@@ -22,9 +22,9 @@ We can put any object in the box:
     >>> box.get(secret) is value
     True
 
-The secret is an integer:
+The secret used to be an integer, but we switch to a string:
 
-    >>> isinstance(secret, int)
+    >>> isinstance(secret, str)
     True
 
 We can get the item multiple times, but we can also pop the item,
@@ -50,13 +50,13 @@ check what the first three secrets are that will be generated:
     >>> random.seed(42)
     >>> first_secret = box._generate_new_id()
     >>> first_secret
-    1373158594
+    'wbkh9tzc'
     >>> second_secret = box._generate_new_id()
     >>> second_secret
-    53710188
+    'pbhq8gs9'
     >>> third_secret = box._generate_new_id()
     >>> third_secret
-    590620964
+    'jt3bzvkf'
 
 We reset the random generator with the same seed and put an item in
 the box:
@@ -109,6 +109,12 @@ Confirming wrong tokens does not help:
     >>> box.get(secret, 'wrong token') is None
     True
 
+Removing the item also needs the token:
+
+    >>> box.pop(secret)
+    >>> box.pop(secret, 'maurits@example.com')
+    'my data'
+
 If we get None back, we always interpret this as meaning there was no
 match.  So we should not accept None as a valid value to store in the
 box:
@@ -126,7 +132,7 @@ We check how many items we have currently:
 
     >>> start_items = len(box.data)
     >>> start_items
-    5
+    4
 
 We can purge manually:
 
@@ -209,9 +215,9 @@ We can get all confirmed data:
     >>> confirmed
     <generator object at ...>
     >>> sorted([x for x in confirmed])
-    ['my data']
+    []
 
-Let's add another item and confirm it:
+Let's add an item and confirm it:
 
     >>> some_object = object()
     >>> secret = box.put(some_object)
@@ -219,4 +225,4 @@ Let's add another item and confirm it:
     >>> some_data.confirmed = True
     >>> confirmed = box.get_all_confirmed()
     >>> sorted([x for x in confirmed])
-    [<object object at ...>, 'my data']
+    [<object object at ...>]

@@ -3,6 +3,8 @@ import time
 import random
 from persistent import Persistent
 from BTrees.IOBTree import IOBTree
+from BTrees.OOBTree import OOBTree
+from persistent.mapping import PersistentMapping
 from zope.interface import implements
 
 from collective.depositbox.interfaces import IDepositBox
@@ -11,6 +13,7 @@ MAX_ID = 2 ** 31
 logger = logging.getLogger('collective.depositbox')
 
 
+# Rename to BoxItem?
 class Item(Persistent):
 
     def __init__(self, token, value, confirmed=False):
@@ -19,22 +22,32 @@ class Item(Persistent):
         self.confirmed = confirmed
         self.timestamp = int(time.time())
 
+# This may be prettier but may give (away) too much info.
+    # def __repr__(self):
+    #     return '<Item with token %r, value %r, confirmed %r, timestamp %r' % (
+    #         self.token, self.value, self.confirmed, self.timestamp)
+
 
 class Box(Persistent):
     implements(IDepositBox)
 
+    # Maximum age of items in days (you can specify 1.0/24 for one
+    # hour if you want).
     max_age = 7
 
     def __init__(self):
-        self.data = IOBTree()
+        #self.data = IOBTree()
+        #self.data = OOBTree()
+        self.data = PersistentMapping()
         self._last_purge = int(time.time())
 
     def _generate_new_id(self):
         """Generate new id.
         """
-        id = random.randint(1, MAX_ID)
+        #id = random.randint(1, MAX_ID)
+        id = ''.join(random.sample('bcdfghjklmnpqrstvwxz23456789', 8))
         while id in self.data.keys():
-            id = random.randint(1, MAX_ID)
+            id = self._generate_new_id()
         return id
 
     def put(self, value, token=None):

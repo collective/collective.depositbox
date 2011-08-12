@@ -3,8 +3,43 @@ from Products.Five import BrowserView
 from collective.depositbox.interfaces import IDepositBox
 
 
-class BaseView(BrowserView):
+class DepositBoxView(BrowserView):
+    """Simple browser view that knows how to interact with the deposit box.
 
+    Simply a front end for the adapter really.
+    """
+
+    def put(self, value, token=None):
+        context = aq_inner(self.context)
+        box = IDepositBox(context)
+        secret = box.put(value, token=token)
+        return secret
+
+    def confirm(self, secret, token=None):
+        context = aq_inner(self.context)
+        box = IDepositBox(context)
+        confirmed = box.confirm(secret, token=token)
+        return confirmed
+
+    def get(self, secret, token=None):
+        context = aq_inner(self.context)
+        box = IDepositBox(context)
+        stored = box.get(secret, token=token)
+        return stored
+
+    def pop(self, secret, token=None):
+        context = aq_inner(self.context)
+        box = IDepositBox(context)
+        stored = box.pop(secret, token=token)
+        return stored
+
+    def edit(self, secret, value, token=None):
+        context = aq_inner(self.context)
+        box = IDepositBox(context)
+        box.edit(secret, value, token=token)
+
+
+class BaseView(DepositBoxView):
     # These variables should be available to the template:
     secret = None
     token = None
@@ -34,7 +69,7 @@ class BaseView(BrowserView):
         return self.request.form.get(self.token_id)
 
     def get_secret(self):
-        return int(self.request.form.get('secret', 0))
+        return self.request.form.get('secret', '')
 
     def get_value(self):
         form = dict()
@@ -53,11 +88,10 @@ class Add(BaseView):
             return
         if not self.value:
             return
-
-        context = aq_inner(self.context)
-        box = IDepositBox(context)
-        secret = box.put(self.value, token=self.token)
-        self.secret = secret
+        # Add the value (and token) and make the secret available on
+        # the view.
+        self.secret = self.put(self.value, token=self.token)
+        return self.secret
 
 
 class Confirm(BaseView):
@@ -73,10 +107,8 @@ class Confirm(BaseView):
             # Token is required.
             return
 
-        context = aq_inner(self.context)
-        box = IDepositBox(context)
-        self.confirmed = box.confirm(self.secret, token=self.token)
-        self.stored = box.get(self.secret, token=self.token)
+        self.confirmed = self.confirm(self.secret, token=self.token)
+        self.stored = self.get(self.secret, token=self.token)
 
 
 class Edit(BaseView):
@@ -92,9 +124,7 @@ class Edit(BaseView):
             # Token is required.
             return
 
-        context = aq_inner(self.context)
-        box = IDepositBox(context)
-        self.stored = box.get(self.secret, token=self.token)
+        self.stored = self.get(self.secret, token=self.token)
         if not self.stored:
             return
         if not self.value:
@@ -113,7 +143,7 @@ class Edit(BaseView):
 
         # Check again for differences
         if self.value != self.stored:
-            box.edit(self.secret, self.value, token=self.token)
+            self.edit(self.secret, self.value, token=self.token)
 
 
 class Delete(BaseView):
@@ -129,13 +159,11 @@ class Delete(BaseView):
             # Token is required.
             return
 
-        context = aq_inner(self.context)
-        box = IDepositBox(context)
         if self.request.form.get('delete'):
-            self.stored = box.pop(self.secret, token=self.token)
+            self.stored = self.pop(self.secret, token=self.token)
             self.deleted = True
         else:
-            self.stored = box.get(self.secret, token=self.token)
+            self.stored = self.get(self.secret, token=self.token)
             if self.request.form.get('cancel'):
                 self.request.RESPONSE.redirect(
                     self.context.absolute_url())

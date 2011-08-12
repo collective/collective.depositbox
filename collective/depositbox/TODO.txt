@@ -1,0 +1,15 @@
+* May want to allow more than one box per context.  Use named adapters?
+  Add self.boxname in the BaseView.  The BoxAdapter may then need to
+  store a persistent dict/mapping of Boxes.  And/or make a
+  MultiBoxAdapter?  But integrators can also register their own simple
+  adapter, inheriting from our BoxAdapter and using a different
+  ANNO_KEY.
+
+* Allow non-integer keys, perhaps pluggable.  Wait, then we cannot use
+  an IOBTree as storage...  May not be that bad.  An OOBtree or
+  PersistentMapping would work too (just tested; tests pass).  As long
+  as the data store has __getitem__ access, keys, values, get, pop, it
+  should work.  Did some performance tests: PersistentMapping is
+  slightly faster for larger stored amounts (thousands); OOBTree is
+  20% faster for smaller amounts (10).
+
