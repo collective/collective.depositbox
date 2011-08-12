@@ -5,6 +5,7 @@ from zope.component import adapts
 from zope.annotation.interfaces import IAnnotations
 from zope.annotation.interfaces import IAttributeAnnotatable
 from collective.depositbox.store import Box
+from collective.depositbox import config
 from collective.depositbox.interfaces import IDepositBox
 
 logger = logging.getLogger('collective.depositbox')
@@ -16,13 +17,15 @@ class BoxAdapter(object):
     implements(IDepositBox)
     adapts(IAttributeAnnotatable)
     ANNO_KEY = 'collective.depositbox'
+    max_age = config.MAX_AGE
+    purge_days = config.PURGE_DAYS
 
     def __init__(self, context):
         self.context = context
         annotations = IAnnotations(context)
         self.box = annotations.get(self.ANNO_KEY, None)
         if self.box is None:
-            annotations[self.ANNO_KEY] = Box()
+            annotations[self.ANNO_KEY] = Box(self.max_age, self.purge_days)
             self.box = annotations[self.ANNO_KEY]
 
     def put(self, value, token=None):

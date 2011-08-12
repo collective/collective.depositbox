@@ -12,4 +12,3 @@
   should work.  Did some performance tests: PersistentMapping is
   slightly faster for larger stored amounts (thousands); OOBTree is
   20% faster for smaller amounts (10).
-

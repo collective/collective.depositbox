@@ -5,9 +5,9 @@ from persistent import Persistent
 from persistent.mapping import PersistentMapping
 from zope.interface import implements
 
+from collective.depositbox import config
 from collective.depositbox.interfaces import IDepositBox
 
-MAX_ID = 2 ** 31
 logger = logging.getLogger('collective.depositbox')
 
 
@@ -23,15 +23,11 @@ class BoxItem(Persistent):
 class Box(Persistent):
     implements(IDepositBox)
 
-    # Maximum age of items in days (you can specify 1.0/24 for one
-    # hour if you want).
-    max_age = 7
-    # How often should the box be purged?
-    purge_days = 1
-
-    def __init__(self):
+    def __init__(self, max_age=config.MAX_AGE, purge_days=config.PURGE_DAYS):
         self.data = PersistentMapping()
         self._last_purge = int(time.time())
+        self.max_age = max_age
+        self.purge_days = purge_days
 
     def _generate_new_id(self):
         """Generate new id.
