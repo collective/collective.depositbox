@@ -20,6 +20,23 @@ class BoxItem(Persistent):
         self.timestamp = int(time.time())
 
 
+def id_generator():
+    """Generate a random id.
+
+    We could make this pluggable, so integrators could register a
+    utility that generates ids, but that may be overkill.  Anyway, a
+    monkey patch would work too if needed.  As an example, this code
+    would use the uniqueString method from the PasswordResetTool:
+
+    from zope.app.component.hooks import getSite
+    from Products.CMFCore.utils import getToolByName
+    context = getSite()
+    prt = getToolByName(context, 'portal_password_reset')
+    return prt.uniqueString('')
+    """
+    return ''.join(random.sample('bcdfghjklmnpqrstvwxz23456789', 8))
+
+
 class Box(Persistent):
     implements(IDepositBox)
 
@@ -32,10 +49,10 @@ class Box(Persistent):
     def _generate_new_id(self):
         """Generate new id.
         """
-        id = ''.join(random.sample('bcdfghjklmnpqrstvwxz23456789', 8))
-        while id in self.data.keys():
-            id = self._generate_new_id()
-        return id
+        new_id = id_generator()
+        while new_id in self.data.keys():
+            new_id = id_generator()
+        return new_id
 
     def put(self, value, token=None):
         """Put value in box, with optional token, and return generated id.
