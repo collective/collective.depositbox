@@ -3,6 +3,13 @@
     xmlns:browser="http://namespaces.zope.org/browser">
 
   <browser:page
+      name="deposit-simple"
+      for="*"
+      template="templates/simple.pt"
+      permission="zope2.View"
+      />
+
+  <browser:page
       name="deposit-add"
       for="zope.annotation.interfaces.IAttributeAnnotatable"
       class=".browser.Add"
