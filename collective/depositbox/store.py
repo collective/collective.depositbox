@@ -26,6 +26,8 @@ class Box(Persistent):
     # Maximum age of items in days (you can specify 1.0/24 for one
     # hour if you want).
     max_age = 7
+    # How often should the box be purged?
+    purge_days = 1
 
     def __init__(self):
         self.data = PersistentMapping()
@@ -43,11 +45,11 @@ class Box(Persistent):
         """Put value in box, with optional token, and return generated id.
 
         Calling this method also does a purge once a day (well, when
-        the last purge was at least 24 hours ago).
+        the last purge was at least 24 hours ago).  The frequency can
+        be controlled with the purge_days attribute.
         """
-        cutoff = int(time.time()) - 86400
+        cutoff = int(time.time()) - (self.purge_days * 86400)
         if self._last_purge < cutoff:
-            # Purge each day
             self.purge()
 
         if value is None:
