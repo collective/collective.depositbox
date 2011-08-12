@@ -182,7 +182,7 @@ than 24 hourse ago:
     >>> len(box.data) == start_items + 1
     True
     >>> box.data.get(doomed_secret)
-    <collective.depositbox.store.Item object at ...>
+    <collective.depositbox.store.BoxItem object at ...>
 
 We reset the last purge time; adding the next item should now delete
 the doomed item:

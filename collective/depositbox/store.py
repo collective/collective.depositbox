@@ -13,8 +13,7 @@ MAX_ID = 2 ** 31
 logger = logging.getLogger('collective.depositbox')
 
 
-# Rename to BoxItem?
-class Item(Persistent):
+class BoxItem(Persistent):
 
     def __init__(self, token, value, confirmed=False):
         self.token = token
@@ -24,7 +23,7 @@ class Item(Persistent):
 
 # This may be prettier but may give (away) too much info.
     # def __repr__(self):
-    #     return '<Item with token %r, value %r, confirmed %r, timestamp %r' % (
+    #     return '<BoxItem with token %r, value %r, confirmed %r, timestamp %r' % (
     #         self.token, self.value, self.confirmed, self.timestamp)
 
 
@@ -64,7 +63,7 @@ class Box(Persistent):
         if value is None:
             raise ValueError
         id = self._generate_new_id()
-        self.data[id] = Item(token, value, confirmed=False)
+        self.data[id] = BoxItem(token, value, confirmed=False)
         return id
 
     def edit(self, secret, value, token=None):
@@ -76,7 +75,7 @@ class Box(Persistent):
         if value == stored:
             # No change
             return
-        self.data[secret] = Item(token, value, confirmed=True)
+        self.data[secret] = BoxItem(token, value, confirmed=True)
 
     def get(self, secret, token=None):
         stored = self.data.get(secret)
