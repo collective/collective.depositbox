@@ -38,9 +38,8 @@ responsibility of integrators.
 Dependencies
 ============
 
-Tested with Plone 3.3.5.  Might work in Plone 2.5 already.  Very
-likely fine for Plone 4.0 or 4.1.  Probably works in plain Zope2 2.10
-or higher as well.
+Tested with Plone 3.3.5, 4.0.9, 4.1.  Might work in Plone 2.5 already.
+Probably works in plain Zope2 as well.
 
 
 Install
