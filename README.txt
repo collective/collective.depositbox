@@ -12,14 +12,8 @@ in the secret (this is actually part of the link so this is done
 implicitly) and his user name (the validation token) he is allowed to
 set a fresh password.
 
-This package is meant to support this and similar use cases.  You
-could use this to store an email address that needs to be confirmed
-before adding it to a mailing list.  Or you generate 1,000 secrets,
-print them, hand them out on a trade show, and give a people 5 euro
-when they register on your website with this secret; perhaps you could
-cobble something like this together in combination with PloneFormGen.
-
-The part this package does is:
+This package is meant to support this and similar use cases.  The part
+this package does is:
 
 - storing the value (done with annotations)
 
@@ -33,6 +27,23 @@ The part this package does is:
 
 No emails are sent.  If that is needed for a use case, that is the
 responsibility of integrators.
+
+
+Target audience
+===============
+
+Target audience is integrators, as the package does not really do
+anything interesting for end users.  You will have to build something
+around it.  This could be as easy as a PloneFormGen form.  Here are
+some possible use cases.
+
+- You could use this to store an email address that needs to be
+  confirmed before adding it to a mailing list.
+
+- Or you generate 1,000 secrets, print them, hand them out on a trade
+  show, and give people 5 euro when they register on your website with
+  this secret; perhaps you could cobble something like this together
+  in combination with PloneFormGen.
 
 
 Dependencies
@@ -88,7 +99,7 @@ Sample code
     >>> box.confirm(secret, token='maurits@example.com')
     True
     >>> box.get(secret, token='maurits@example.com')
-   'my data'
+    'my data'
     >>> box.get(secret, token='bad@example.com') is None
     True
     >>> box.pop(secret) is None
@@ -112,8 +123,20 @@ IAttributeAnnotatable, which is true for any content item in Plone.
 It adds one deposit box on the context.  This may be fine for your use
 case, but maybe you want something else.  So here are a few ideas.
 
-- Look in config.py for some settings you could easily override in a
+- Look in ``config.py`` for some settings you could easily override in a
   monkey patch.
+
+- Maybe replace the random ``id_generator`` using a monkey patch if
+  you don't like the secrets that are generated.  Secrets are
+  currently 8 characters from the lowercase alphabet or digits.  We
+  avoid accidentally creating (swear) words by excluding vowels, and
+  avoid further confusion by excluding 0 and 1.  8 characters sampled
+  from these 28 characters give 125 billion possible results.  That is
+  enough for 1 random key every second for almost 4000 years.  If you
+  want some uuid thingie instead that is fine.  I like that the secret
+  is short so that you can safely include it as part of a url in an
+  email without making the link too long, which can lead to problems
+  in some email programs.
 
 - You could register your own adapter that inherits from
   ``BoxAdapter``.  You can then override ``ANNO_KEY`` so you can store
