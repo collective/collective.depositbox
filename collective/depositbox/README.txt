@@ -41,6 +41,15 @@ which means we really take the item out of the box:
     >>> box.get(secret) is None
     True
 
+You can edit an item:
+
+    >>> secret = box.put(object())
+    >>> box.get(secret)
+    <object object at ...>
+    >>> box.edit(secret, 'I have been edited.')
+    >>> box.pop(secret)
+    'I have been edited.'
+
 The secret is a random integer.  When a generated random key is
 already taken (small chance, but still a chance), we simply try
 again.  This can be tested by seeding the random generator.  First we
