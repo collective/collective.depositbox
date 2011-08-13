@@ -222,7 +222,7 @@ We can get all confirmed data:
 
     >>> confirmed = box.get_all_confirmed()
     >>> confirmed
-    <generator object at ...>
+    <generator object ...>
     >>> sorted([x for x in confirmed])
     []
 
