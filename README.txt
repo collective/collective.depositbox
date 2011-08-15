@@ -148,7 +148,7 @@ case, but maybe you want something else.  So here are a few ideas.
 - You can add a value in the deposit box and get the secret back in a
   page template with a TAL definition like this::
 
-    depositview context/@@deposit-box;
+    depositview nocall:context/@@deposit-box;
     secret python:depositview.put('foobar');
 
   For a slightly bigger example see

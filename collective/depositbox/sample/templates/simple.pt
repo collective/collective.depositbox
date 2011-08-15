@@ -8,7 +8,7 @@
   <div tal:define="pps context/@@plone_portal_state;
                    portal pps/portal;
                    portal_url pps/portal_url;
-                   depview portal/@@deposit-box;
+                   depview nocall:portal/@@deposit-box;
                    secret python:depview.put('foobar');">
     <p>
       We have stored something for you in the deposit box in the site
