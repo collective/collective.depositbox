@@ -5,14 +5,14 @@ version = '1.1dev'
 setup(name='collective.depositbox',
       version=version,
       description="Put stuff in a box, get it out again with the secret",
-      long_description=open("README.txt").read() + "\n" +
-                       open("CHANGES.rst").read(),
+      long_description=(open("README.txt").read() + "\n" +
+                        open("CHANGES.rst").read()),
       # Get more strings from
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
-        "Framework :: Plone",
-        "Programming Language :: Python",
-        ],
+          "Framework :: Plone",
+          "Programming Language :: Python",
+          ],
       keywords='',
       author='Maurits van Rees',
       author_email='maurits@vanrees.org',
