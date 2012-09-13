@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.1 (unreleased)
+1.1 (2012-09-13)
 ----------------
 
 - Moved to github: https://github.com/collective/collective.depositbox
