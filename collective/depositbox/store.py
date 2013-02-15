@@ -28,7 +28,7 @@ def id_generator():
     monkey patch would work too if needed.  As an example, this code
     would use the uniqueString method from the PasswordResetTool:
 
-    from zope.app.component.hooks import getSite
+    from zope.component.hooks import getSite
     from Products.CMFCore.utils import getToolByName
     context = getSite()
     prt = getToolByName(context, 'portal_password_reset')
