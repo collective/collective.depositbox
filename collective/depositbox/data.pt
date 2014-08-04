@@ -5,7 +5,8 @@
 <body>
 <div metal:fill-slot="content-core">
   <h2 i18n:translate="">Confirmed Data</h2>
-  <a tal:attributes="href string:${context/absolute_url}/deposit-box-data.csv">Download as CSV</a>
+  <a tal:attributes="href string:${context/absolute_url}/deposit-box-data.csv"
+     i18n:translate="">Download as CSV</a>
   <ul>
     <li tal:repeat="values view/get_all_confirmed">
       <span tal:repeat="value values" tal:content="value" />

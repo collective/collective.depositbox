@@ -4,6 +4,9 @@ Changelog
 1.2 (unreleased)
 ----------------
 
+- Add locales, with Dutch translations.
+  [maurits]
+
 - Add simple ``deposit-box-data`` view to see confirmed data.  You may
   want to override this in your own code with some view that presents
   it in a nicer way because it knows what kind of values are stored.

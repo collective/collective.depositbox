@@ -6,6 +6,7 @@
     i18n_domain="collective.depositbox">
 
   <five:registerPackage package="." initialize=".initialize" />
+  <i18n:registerTranslations directory="locales" />
 
   <permission
       id="collective.depositbox.ViewData"
