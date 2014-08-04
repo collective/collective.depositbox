@@ -13,11 +13,9 @@ class DepositBoxView(BrowserView):
     Simply a front end for the adapter really.
     """
 
-    # Character set to use for exporting to csv.  Excel likes
-    # iso-8859-1: when you use 'utf-8' as export charset excel will
-    # show wrong characters for names with c-cedille or other such
-    # characters.  So we want to send iso-8859-1 here.
-    export_charset = 'iso-8859-1'
+    # Character set to use for exporting to csv.  Possibly iso-8859-1
+    # is nicer for Excel.
+    export_charset = 'utf-8'
 
     def put(self, value, token=None):
         context = aq_inner(self.context)
@@ -62,7 +60,11 @@ class DepositBoxView(BrowserView):
         writer = csv.writer(out, delimiter=',',
                             quotechar='"', quoting=csv.QUOTE_MINIMAL)
         for values in self.get_all_confirmed():
-            print values
+            decoded = []
+            for value in values:
+                if isinstance(value, str):
+                    value = value.decode(self.export_charset, 'replace')
+                decoded.append(value)
             writer.writerow(values)
         response = self.request.response
         response.setHeader('content-type',
@@ -71,9 +73,4 @@ class DepositBoxView(BrowserView):
         filename = 'deposit-box-data.csv'
         response.setHeader('content-disposition',
                            'attachment; filename=%s' % filename)
-
-        # Some values may have characters that cannot be translated
-        # into the chosen charset, like \u2018 which Microsoft is so
-        # fond of...  So replace faulty characters with a question
-        # mark.
-        return out.getvalue().encode(self.export_charset, 'replace')
+        return out.getvalue()
