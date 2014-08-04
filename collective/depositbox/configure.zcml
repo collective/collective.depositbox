@@ -18,7 +18,7 @@
       name="deposit-box"
       for="zope.annotation.interfaces.IAttributeAnnotatable"
       class=".browser.DepositBoxView"
-      allowed_attributes="put confirm get pop edit get_all_confirmed"
+      allowed_attributes="put confirm get pop edit get_all_confirmed confirmed_as_csv"
       permission="zope2.View"
       />
 
@@ -27,6 +27,14 @@
       for="zope.annotation.interfaces.IAttributeAnnotatable"
       class=".browser.DepositBoxView"
       template="data.pt"
+      permission="collective.depositbox.ViewData"
+      />
+
+  <browser:page
+      name="deposit-box-data.csv"
+      for="zope.annotation.interfaces.IAttributeAnnotatable"
+      class=".browser.DepositBoxView"
+      attribute="confirmed_as_csv"
       permission="collective.depositbox.ViewData"
       />
 
