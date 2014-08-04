@@ -1,0 +1,15 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="collective.depositbox">
+<body>
+<div metal:fill-slot="content-core">
+  <h2 i18n:translate="">Confirmed Data</h2>
+  <ul>
+    <li tal:repeat="values view/get_all_confirmed">
+      <span tal:repeat="value values" tal:content="value" />
+    </li>
+  </ul>
+</div>
+</body>
+</html>

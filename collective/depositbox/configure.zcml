@@ -22,4 +22,12 @@
       permission="zope2.View"
       />
 
+  <browser:page
+      name="deposit-box-data"
+      for="zope.annotation.interfaces.IAttributeAnnotatable"
+      class=".browser.DepositBoxView"
+      template="data.pt"
+      permission="collective.depositbox.ViewData"
+      />
+
 </configure>
