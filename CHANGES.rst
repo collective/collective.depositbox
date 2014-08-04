@@ -4,7 +4,11 @@ Changelog
 1.2 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Add permission ``collective.depositbox: View Data``.  Allow access
+  to ``get_all_confirmed`` data when the user has this permission.
+  We do not grant the permission explicitly, so by default only a
+  Manager has it.
+  [maurits]
 
 
 1.1 (2012-09-13)

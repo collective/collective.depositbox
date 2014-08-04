@@ -7,13 +7,18 @@
 
   <five:registerPackage package="." initialize=".initialize" />
 
+  <permission
+      id="collective.depositbox.ViewData"
+      title="collective.depositbox: View Data"
+      />
+
   <adapter factory=".adapter.BoxAdapter" />
 
   <browser:page
       name="deposit-box"
       for="zope.annotation.interfaces.IAttributeAnnotatable"
       class=".browser.DepositBoxView"
-      allowed_attributes="put confirm get pop edit"
+      allowed_attributes="put confirm get pop edit get_all_confirmed"
       permission="zope2.View"
       />
 

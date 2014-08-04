@@ -1,5 +1,7 @@
+from AccessControl import Unauthorized
 from Acquisition import aq_inner
 from Products.Five import BrowserView
+from Products.CMFCore.utils import _checkPermission
 from collective.depositbox.interfaces import IDepositBox
 
 
@@ -37,3 +39,12 @@ class DepositBoxView(BrowserView):
         context = aq_inner(self.context)
         box = IDepositBox(context)
         box.edit(secret, value, token=token)
+
+    def get_all_confirmed(self, raise_exceptions=True):
+        context = aq_inner(self.context)
+        if not _checkPermission("collective.depositbox: View Data", context):
+            if raise_exceptions:
+                raise Unauthorized("Not allowed to get confirmed data.")
+            return []
+        box = IDepositBox(context)
+        return box.get_all_confirmed()
