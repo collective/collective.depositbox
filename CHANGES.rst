@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.3 (unreleased)
+1.3 (2015-09-01)
 ----------------
 
 - Added documentation about using the ``IDepositBox`` adapter.
