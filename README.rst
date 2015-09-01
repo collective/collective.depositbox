@@ -83,6 +83,8 @@ edit and delete an item.
 Sample code
 ===========
 
+This should give you an idea of how you should use the code::
+
     >>> from collective.depositbox.store import Box
     >>> box = Box()
     >>> secret = box.put(object())
@@ -107,6 +109,23 @@ Sample code
     True
     >>> box.pop(secret, token='maurits@example.com')
     'my data'
+
+
+Storing data persistently
+=========================
+
+If you instantiate a ``Box()`` like above, but do not add the box to
+some object in the database, then you will loose your data once your
+Plone Site restarts.  The normal way to save the box is to use an
+adapter to store it in annotations on the context::
+
+    >>> from collective.depositbox.interfaces import IDepositBox
+    >>> box = IDepositBox(context)
+
+That context can be the Plone Site root, a folder, a document or
+whatever you want.  You can have multiple boxes: different contexts
+will have different boxes.  A secret for one box is not valid for
+another box.
 
 
 Expiring

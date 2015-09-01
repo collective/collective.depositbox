@@ -1,10 +1,12 @@
 Changelog
 =========
 
+
 1.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Added documentation about using the ``IDepositBox`` adapter.
+  [maurits]
 
 
 1.2 (2014-08-04)
