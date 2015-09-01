@@ -1,12 +1,18 @@
 from setuptools import setup, find_packages
+import os
 
 version = '1.3.dev0'
+long_description = open("README.rst").read()
+long_description += "\n"
+long_description += open(os.path.join(
+    "collective", "depositbox", "usage.rst")).read()
+long_description += "\n"
+long_description += open("CHANGES.rst").read()
 
 setup(name='collective.depositbox',
       version=version,
       description="Put stuff in a box, get it out again with the secret",
-      long_description=(open("README.rst").read() + "\n" +
-                        open("CHANGES.rst").read()),
+      long_description=long_description,
       # Get more strings from
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[

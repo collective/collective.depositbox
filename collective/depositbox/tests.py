@@ -40,6 +40,11 @@ def test_suite():
             setUp=testing.setUp, tearDown=testing.tearDown,
             optionflags=doctest.ELLIPSIS),
 
+        doctestunit.DocFileSuite(
+            'usage.rst', package='collective.depositbox',
+            setUp=testing.setUp, tearDown=testing.tearDown,
+            optionflags=doctest.ELLIPSIS),
+
         #doctestunit.DocTestSuite(
         #    module='collective.depositbox.mymodule',
         #    setUp=testing.setUp, tearDown=testing.tearDown),
