@@ -49,7 +49,8 @@ some possible use cases.
 Dependencies
 ============
 
-Tested with Plone 3.3.5, 4.0.9, 4.1.  Might work in Plone 2.5 already.
+Tested with Plone 3.3.5, 4.0.9, 4.1, 4.2, 4.3.6, 5.0.
+Might work in Plone 2.5 already.
 Probably works in plain Zope2 as well.
 
 
