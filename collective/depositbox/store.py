@@ -3,7 +3,7 @@ import time
 import random
 from persistent import Persistent
 from persistent.mapping import PersistentMapping
-from zope.interface import implements
+from zope.interface import implementer
 
 from collective.depositbox import config
 from collective.depositbox.interfaces import IDepositBox
@@ -36,9 +36,8 @@ def id_generator():
     """
     return ''.join(random.sample('bcdfghjklmnpqrstvwxz23456789', 8))
 
-
+@implementer(IDepositBox)
 class Box(Persistent):
-    implements(IDepositBox)
 
     def __init__(self, max_age=config.MAX_AGE, purge_days=config.PURGE_DAYS):
         self.data = PersistentMapping()

@@ -1,6 +1,6 @@
 import logging
 
-from zope.interface import implements
+from zope.interface import implementer
 from zope.component import adapts
 from zope.annotation.interfaces import IAnnotations
 from zope.annotation.interfaces import IAttributeAnnotatable
@@ -10,11 +10,10 @@ from collective.depositbox.interfaces import IDepositBox
 
 logger = logging.getLogger('collective.depositbox')
 
-
+@implementer(IDepositBox)
 class BoxAdapter(object):
     """An adapter for our Box.
     """
-    implements(IDepositBox)
     adapts(IAttributeAnnotatable)
     ANNO_KEY = 'collective.depositbox'
     max_age = config.MAX_AGE

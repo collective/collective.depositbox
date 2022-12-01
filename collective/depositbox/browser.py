@@ -3,7 +3,7 @@ from AccessControl import Unauthorized
 from Acquisition import aq_inner
 from Products.Five import BrowserView
 from Products.CMFCore.utils import _checkPermission
-from StringIO import StringIO
+from io import StringIO
 from collective.depositbox.interfaces import IDepositBox
 
 

@@ -5,7 +5,8 @@ Changelog
 1.4 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Python 3 / Plone 5.2 compatibility.
+  [fredvd]
 
 
 1.3 (2015-09-01)
